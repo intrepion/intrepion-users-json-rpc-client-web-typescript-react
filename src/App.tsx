@@ -1,6 +1,6 @@
 // App.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 
 import './App.css';
 
@@ -30,12 +30,9 @@ const App = () => {
         setGreeting(response.data.result.greeting);
         setLoading(false);
       })
-      .catch(exception => {
-        console.log(exception);
-        const error = false //exception.response.status === 404
-          ? 'Resource not found'
-          : 'An unexpected error has occurred';
-        setError(error);
+      .catch(error => {
+        const err = error as AxiosError
+        setError(err.message);
         setLoading(false);
       });
   };
